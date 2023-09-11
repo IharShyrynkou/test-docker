@@ -10,7 +10,7 @@ COPY ["test-docker/test-docker.csproj", "test-docker/"]
 RUN dotnet restore "test-docker/test-docker.csproj"
 COPY . .
 WORKDIR "/src/test-docker"
-RUN dotnet build "test-docker.csproj" -c Release -o /app/build
+RUN dotnet build "test-docker.csproj" -c Release --no-incremental -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "test-docker.csproj" -c Release -o /app/publish /p:UseAppHost=false
