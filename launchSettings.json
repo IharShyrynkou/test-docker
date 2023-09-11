@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "useSSL": false,
+      "serviceActions": {
+        "test-docker": "StartDebugging"
+
+      }
+    }
+  }
+}
