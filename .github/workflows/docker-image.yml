@@ -18,7 +18,7 @@ jobs:
     - name: Run build script
       #continue-on-error: true
       run: ./.github/scripts/build.sh
-      #shell: bash
+     #shell: bash
 
   deploy:
     runs-on: self-hosted
