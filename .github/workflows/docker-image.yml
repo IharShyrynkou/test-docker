@@ -23,6 +23,12 @@ jobs:
      
     - name: Run build script
       run: timeout /t 10
+      continue-on-error: true
+
+#docker container prune
+#docker image prune
+#docker network prune
+#docker volume prune
 
 
   deploy:
