@@ -22,11 +22,13 @@ jobs:
 
     - name: remove contaimers
       continue-on-error: true
-      run: for /F %c in ('docker ps -a -q') do (docker rm %c)
+      #run: for /F %c in ('docker ps -a -q') do (docker rm %c)
+      run: docker stop $(docker ps -a -q) && docker container prune -a
 
     - name: remove images
       continue-on-error: true
-      run: for /F %i in ('docker images -a -q') do docker rmi -f %i
+      #run: for /F %i in ('docker images -a -q') do docker rmi -f %i
+      run: docker images -a -q | % { docker image rm $_ -f }
 
     - name: Build the Docker image
       run: docker-compose up -d
