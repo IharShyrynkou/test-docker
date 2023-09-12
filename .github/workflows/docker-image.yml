@@ -17,12 +17,15 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Stop contaimers
+      continue-on-error: true
       run: for /F %c in ('docker ps -a -q') do (docker stop %c)
 
     - name: remove contaimers
+      continue-on-error: true
       run: for /F %c in ('docker ps -a -q') do (docker rm %c)
 
     - name: remove images
+      continue-on-error: true
       run: for /F %c in ('docker ps -a -q') do (docker rmi -f %c)
 
     - name: Build the Docker image
