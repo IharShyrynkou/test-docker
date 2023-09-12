@@ -8,33 +8,22 @@ on:
 
 jobs:
 
-  clean:
+  publish:
 
     runs-on: self-hosted
 
     steps:
+    
     - uses: actions/checkout@v4
 
-    - name: Run build script
-      #continue-on-error: true
-      run: ./.github/scripts/build.sh
-     #shell: bash
+    - name: Stop contaimers
+      run: for /F %c in ('docker ps -a -q') do (docker stop %c)
 
-     
-    - name: Run build script
-      run: timeout /t 10
-      continue-on-error: true
+    - name: remove contaimers
+      run: for /F %c in ('docker ps -a -q') do (docker rm %c)
 
-#docker container prune
-#docker image prune
-#docker network prune
-#docker volume prune
+    - name: remove images
+      run: for /F %c in ('docker ps -a -q') do (docker rmi -f %c)
 
-
-  deploy:
-    runs-on: self-hosted
-    needs: clean
-    steps:
-      - name: Build the Docker image
-        run: docker-compose up -d
-        continue-on-error: true
+    - name: Build the Docker image
+      run: docker-compose up -d
