@@ -8,25 +8,34 @@ on:
 
 jobs:
 
-  publish:
-
+  clean-up:
     runs-on: self-hosted
-
     steps:
     
     - uses: actions/checkout@v4
 
     - name: Stop contaimers
       continue-on-error: true
-      run: for /F %c in ('docker ps -a -q') do (docker stop %c)
+      run: docker stop $(docker ps -a -q)
+      shell: powershell
 
-    - name: remove contaimers
+    - name: Remove contaimers
       continue-on-error: true
-      run: for /F %c in ('docker ps -a -q') do (docker rm %c)
+      run: docker rm $(docker ps -a -q)
+      shell: powershell
 
-    - name: remove images
+    - name: Remove images
       continue-on-error: true
-      run: for /F %i in ('docker images -a -q') do docker rmi -f %i
+      run: docker images -a -q | % { docker image rm $_ -f }
+      shell: powershell
+
+  publish:
+
+    runs-on: self-hosted
+    needs: clean-up
+    steps:
+    
+    - uses: actions/checkout@v4
 
     - name: Build the Docker image
       run: docker-compose up -d
