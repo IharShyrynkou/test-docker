@@ -16,21 +16,14 @@ jobs:
     
     - uses: actions/checkout@v4
 
-    - name: Stop contaimers
+    - name: Stop and remove contaimers
       continue-on-error: true
-      run: for /F %c in ('docker ps -a -q') do (docker stop %c)
+      run: docker rm $(docker ps -q -f status=exited)
       shell: powershell
 
-
-    - name: remove contaimers
-      continue-on-error: true
-      #run: for /F %c in ('docker ps -a -q') do (docker rm %c)
-      run: docker stop $(docker ps -a -q) && docker container prune -a
-      shell: powershell
 
     - name: remove images
       continue-on-error: true
-      #run: for /F %i in ('docker images -a -q') do docker rmi -f %i
       run: docker images -a -q | % { docker image rm $_ -f }
       shell: powershell
 
