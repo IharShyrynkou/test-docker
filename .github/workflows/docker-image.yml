@@ -22,21 +22,8 @@ jobs:
 
      
     - name: Run build script
-      #continue-on-error: true
-      run: ./.github/scripts/build.sh
-     #shell: bash
+      run: timeout /t 10
 
-     
-    - name: Run build script
-      #continue-on-error: true
-      run: ./.github/scripts/build.sh
-     #shell: bash
-
-     
-    - name: Run build script
-      #continue-on-error: true
-      run: ./.github/scripts/build.sh
-     #shell: bash
 
   deploy:
     runs-on: self-hosted
