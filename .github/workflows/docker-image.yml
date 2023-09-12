@@ -8,24 +8,34 @@ on:
 
 jobs:
 
-  publish:
-
+  clean-up:
     runs-on: self-hosted
-
     steps:
     
     - uses: actions/checkout@v4
 
-    - name: Stop and remove contaimers
+    - name: Stop contaimers
       continue-on-error: true
-      run: docker rm $(docker ps -q -f status=exited)
+      run: docker stop $(docker ps -a -q)
       shell: powershell
 
+    - name: Remove contaimers
+      continue-on-error: true
+      run: docker rm $(docker ps -a -q)
+      shell: powershell
 
-    - name: remove images
+    - name: Remove images
       continue-on-error: true
       run: docker images -a -q | % { docker image rm $_ -f }
       shell: powershell
+
+  publish:
+
+    runs-on: self-hosted
+    needs: clean-up
+    steps:
+    
+    - uses: actions/checkout@v4
 
     - name: Build the Docker image
       run: docker-compose up -d
