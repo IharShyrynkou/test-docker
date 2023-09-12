@@ -26,7 +26,7 @@ jobs:
 
     - name: remove images
       continue-on-error: true
-      run: for /F %c in ('docker ps -a -q') do (docker rmi -f %c)
+      run: for /F %i in ('docker images -a -q') do docker rmi -f %i
 
     - name: Build the Docker image
       run: docker-compose up -d
