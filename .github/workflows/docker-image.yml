@@ -22,7 +22,6 @@ jobs:
     - name: Remove images
       continue-on-error: true
       run: docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}"|findstr "testdocker")
-      #run: docker images -a -q | % { docker image rm $_ -f }
       shell: powershell
 
   publish:
@@ -39,5 +38,3 @@ jobs:
     - name: Set autorun policy
       continue-on-error: true
       run: docker update  -d --restart unless-stopped test-docker
-
-
