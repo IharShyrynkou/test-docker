@@ -34,4 +34,4 @@ jobs:
 
     - name: Set autorun policy
       continue-on-error: true
-      run: docker update --restart unless-stopped test-docker
+      run: docker update --restart unless-stopped test-docker-1
