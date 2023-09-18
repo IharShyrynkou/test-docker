@@ -14,19 +14,15 @@ jobs:
     
     - uses: actions/checkout@v4
 
-    - name: Stop contaimers
+    - name: Removing container
       continue-on-error: true
-      run: docker stop $(docker ps -a -q)
-      shell: powershell
-
-    - name: Remove contaimers
-      continue-on-error: true
-      run: docker rm $(docker ps -a -q)
+      run: docker rm $(docker stop $(docker ps -a -q --filter ancestor=testdocker --format="{{.ID}}"))
       shell: powershell
 
     - name: Remove images
       continue-on-error: true
-      run: docker images -a -q | % { docker image rm $_ -f }
+      run: docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}"|findstr "testdocker")
+      #run: docker images -a -q | % { docker image rm $_ -f }
       shell: powershell
 
   publish:
