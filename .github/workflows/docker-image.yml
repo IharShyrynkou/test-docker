@@ -11,9 +11,6 @@ jobs:
   clean-up:
     runs-on: self-hosted
     steps:
-    
-    - uses: actions/checkout@v4
-
     - name: Removing container
       continue-on-error: true
       run: docker rm $(docker stop $(docker ps -a -q --filter ancestor=testdocker --format="{{.ID}}"))
