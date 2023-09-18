@@ -39,3 +39,9 @@ jobs:
 
     - name: Build the Docker image
       run: docker-compose up -d
+
+    - name: Set autorun policy
+      continue-on-error: true
+      run: docker update  -d --restart unless-stopped test-docker
+
+
